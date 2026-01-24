@@ -127,7 +127,7 @@ const Hero = () => {
         transition={{ duration: 3 }}
         className="absolute z-20 mt-5 md:mt-0 bottom-6 left-1/2 -translate-x-1/2 text-sm text-center flex flex-col justify-center items-center"
       >
-        <InteractiveHoverButton className="bg-white text-black rounded-full md:px-5 md:py-2 text-nowrap">
+        <InteractiveHoverButton className="bg-white text-black rounded-full md:px-5 md:py-2 text-nowrap" onClick={()=> window?.lenis?.scrollTo("#events")}>
           Check Our Events
         </InteractiveHoverButton>
       </motion.div>
