@@ -6,12 +6,6 @@ import { motion } from "framer-motion";
 const quickNavs = ["events", "team", "socials"];
 
 const Navbar = () => {
-  const linkVariants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: { opacity: 1, y: 0 },
-    hover: { y: -3, scale: 1.05 },
-  };
-
   return (
     <nav className="w-screen h-12 backdrop-blur fixed top-0 left-0 z-30 overflow-x-hidden flex flex-row justify-between items-center px-10">
       {/* LOGO  */}
@@ -28,7 +22,12 @@ const Navbar = () => {
       <div className="hidden md:flex flex-row justify-between items-center w-[40%]">
         {quickNavs.map((nav, idx) => (
           <div key={idx} className="flex flex-col capitalize mx-3">
-            <motion.span initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+            <motion.span
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+              className="transform hover:-translate-y-px transition duration-400"
+            >
               <Link href="#">{nav}</Link>
             </motion.span>
             <motion.div
@@ -36,6 +35,7 @@ const Navbar = () => {
               initial={{ opacity: 0, scaleX: 0 }}
               animate={{ opacity: 1, scaleX: 1 }}
               transition={{ duration: 1 }}
+              whileHover={{ opacity: 1, scaleX: 1 }}
               style={{ transformOrigin: "left" }}
             />
           </div>
