@@ -22,7 +22,7 @@ const Events = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
-          className="w-[95%] h-[40%] md:w-[55%] md:h-[95%] flex flex-col justify-start items-start gap-y-5 px-3 md:px-20 overflow-hidden"
+          className="w-[95%] h-[40%] md:w-[55%] md:h-[95%] flex flex-col justify-start md:justify-center items-start gap-y-5 px-3 md:px-20 overflow-hidden"
         >
           <h1 className="text-lg md:text-4xl uppercase text-nowrap">{events[currentIndex].title}</h1>
 
