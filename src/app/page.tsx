@@ -1,5 +1,5 @@
 import Hero from "@/components/root/Hero";
-import Socials from "@/components/root/Socials";
+import Events from "@/components/root/Events";
 import Team from "@/components/root/Team";
 
 const Rootpage = () => {
@@ -7,7 +7,7 @@ const Rootpage = () => {
     <>
       <Hero />
       <Team />
-      <Socials />
+      <Events/>
     </>
   );
 };
