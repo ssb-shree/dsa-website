@@ -14,7 +14,7 @@ import { events } from "@/data/events";
 const Events = () => {
   const { currentIndex } = useEventStore();
   return (
-    <section className="w-screen md:h-[80vh] overflow-hidden bg-zinc-50 text-black flex flex-col-reverse md:flex-row justify-end py-1 md:justify-around items-center">
+    <section id="events" className="w-screen md:h-[80vh] overflow-hidden bg-zinc-50 text-black flex flex-col-reverse md:flex-row justify-end py-1 md:justify-around items-center">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}

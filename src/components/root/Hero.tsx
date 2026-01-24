@@ -6,7 +6,7 @@ import * as motion from "motion/react-client";
 
 const Hero = () => {
   return (
-    <section className="h-screen w-screen relative overflow-hidden text-white">
+    <section id="hero" className="h-screen w-screen relative overflow-hidden text-white">
       {/* Background */}
       <div className="absolute inset-0 flex items-center justify-center">
         <motion.div

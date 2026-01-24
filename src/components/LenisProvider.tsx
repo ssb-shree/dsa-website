@@ -10,9 +10,12 @@ interface LenisProviderProps {
 export default function LenisProvider({ children }: LenisProviderProps) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 3,
-      //   smooth: true,
+      duration: 2,
+      // smooth: true,
     });
+
+    // Attach it to window
+    (window as any).lenis = lenis;
 
     const raf = (time: number) => {
       lenis.raf(time);

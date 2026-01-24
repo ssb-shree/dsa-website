@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <nav className="w-screen h-12 bg-black/20 backdrop-blur fixed top-0 left-0 z-30 overflow-x-hidden flex flex-row justify-between items-center px-10">
       {/* LOGO  */}
-      <Link href={"/"} className="h-10">
+      <Link href={"/"} className="h-10" onClick={() => window?.lenis?.scrollTo(`#hero`)}>
         <motion.img
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -27,8 +27,9 @@ const Navbar = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
               className="transform hover:-translate-y-px transition duration-400"
+              onClick={() => window?.lenis?.scrollTo(`#${nav}`)}
             >
-              <Link href="#">{nav}</Link>
+              {nav}
             </motion.span>
             <motion.div
               className="bg-white h-[1px] w-full"
