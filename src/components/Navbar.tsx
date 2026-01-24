@@ -7,7 +7,7 @@ const quickNavs = ["events", "team", "socials"];
 
 const Navbar = () => {
   return (
-    <nav className="w-screen h-12 backdrop-blur fixed top-0 left-0 z-30 overflow-x-hidden flex flex-row justify-between items-center px-10">
+    <nav className="w-screen h-12 bg-black/20 backdrop-blur fixed top-0 left-0 z-30 overflow-x-hidden flex flex-row justify-between items-center px-10">
       {/* LOGO  */}
       <Link href={"/"} className="h-10">
         <motion.img
