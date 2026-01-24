@@ -22,7 +22,7 @@ const Team = () => {
       </Marquee>
 
       <div className="h-[60vh] w-full flex flex-row justify-center items-center">
-        <Marquee pauseOnHover className="[--duration:20s] h-full w-full">
+        <Marquee className="[--duration:20s] h-full w-full">
           {memberData.map((member, index) => (
             <MemberCard member={member} key={index} />
           ))}
