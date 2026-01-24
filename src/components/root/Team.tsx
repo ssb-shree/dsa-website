@@ -28,7 +28,7 @@ const Team = () => {
           ))}
         </Marquee>
       </div>
-      <p className="absolute w-full max-w-[70%] bottom-4 left-1/2 -translate-x-1/2 text-xs md:text-lg text-black text-center md:x-4">
+      <p className="absolute w-full max-w-[70%] font-medium capitalize bottom-4 left-1/2 -translate-x-1/2 text-xs md:text-lg text-black text-center md:x-4">
         Our members innovate, lead, collaborate, and inspire. They bring skills, energy, ideas, and dedication, making
         the committee unstoppable and thriving.
       </p>
