@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <section className="h-[95vh] md:h-screen w-screen relative overflow-hidden text-white">
+    <section className="h-screen w-screen relative overflow-hidden text-white">
       {/* Background */}
       <div className="absolute inset-0 flex items-center justify-center">
         <motion.div
