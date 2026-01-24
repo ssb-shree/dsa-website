@@ -18,7 +18,7 @@ const Footer = () => {
         <div className="w-full md:w-[35%] flex flex-col justify-center items-start">
           <span className="text-8xl md:text-9xl text-red-600 tracking-widest flex flex-row justify-center items-center space-x-2">
             {"DSA".split("").map((letter, index) => (
-              <motion.span key={index} whileHover={{ y: -2, scale: 1.2 }} className="inline-block hover:cursor-pointer">
+              <motion.span key={index} whileHover={{ y: -2, scale: 1.2 }} className="inline-block hover:cursor-pointer font-extrabold">
                 {letter}
               </motion.span>
             ))}
@@ -36,7 +36,7 @@ const Footer = () => {
           </div>
           <div className="flex flex-col justify-center items-center gap-y-3">
             <span>list of links 2</span>
-            {[1, 2, 3, 4].map((link, index) => (
+            {[1, 2, 3].map((link, index) => (
               <Link href={"#"} key={index} className="underline text-md">
                 link {link}
               </Link>
