@@ -1,10 +1,8 @@
-"use client";
-
 import { CardBody, CardContainer, CardItem } from "../ui/3d-card";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import { Ripple } from "../ui/ripple";
 
-import { motion } from "framer-motion";
+import * as motion from "motion/react-client";
 
 const Hero = () => {
   return (
@@ -49,7 +47,7 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-nowrap text-xl md:text-4xl"
           >
-            Intrest Into Skills
+            Interest Into Skills
           </motion.span>
         </div>
 

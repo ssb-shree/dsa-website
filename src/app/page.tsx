@@ -1,11 +1,13 @@
 import Hero from "@/components/root/Hero";
-import Navbar from "@/components/Navbar";
-import React from "react";
+import Socials from "@/components/root/Socials";
+import Team from "@/components/root/Team";
 
 const Rootpage = () => {
   return (
     <>
       <Hero />
+      <Team />
+      <Socials />
     </>
   );
 };
