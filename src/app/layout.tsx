@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     siteName: "DS Student Committee APSIT",
     images: [
       {
-        url: "/logo.png",
+        url: "/dsa.png",
         width: 1200,
         height: 630,
         alt: "Data Science Student Committee APSIT",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Data Science Student Committee | APSIT",
     description: "A student-led committee fostering coding culture and technical growth at APSIT.",
-    images: ["/logo.png"],
+    images: ["/dsa.png"],
   },
 };
 
