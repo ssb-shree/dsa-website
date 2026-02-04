@@ -25,7 +25,7 @@ const Navbar = () => {
       {/* QUICK NAVIGATION TO SECTIONS  */}
       <div className="hidden md:flex flex-row justify-between items-center w-[40%]">
         {quickNavs.map((nav, idx) => (
-          <div key={idx} className="flex flex-col capitalize mx-3">
+          <div key={idx} className="flex flex-col capitalize mx-3 hover:cursor-pointer ">
             <motion.span
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
