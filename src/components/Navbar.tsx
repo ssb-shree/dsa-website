@@ -1,11 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"; 
 
-const quickNavs = ["events", "team", "socials"];
+import {useRouter} from "next/navigation"
+
+const quickNavs = ["events", "team", "achivements"];
 
 const Navbar = () => {
+
+  const router = useRouter()
   return (
     <nav className="w-screen h-12 bg-black/20 backdrop-blur fixed top-0 left-0 z-30 overflow-x-hidden flex flex-row justify-between items-center px-10">
       {/* LOGO  */}
@@ -27,7 +31,7 @@ const Navbar = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
               className="transform hover:-translate-y-px transition duration-400"
-              onClick={() => window?.lenis?.scrollTo(`#${nav}`)}
+              onClick={() => nav === quickNavs[2] ? router.push(quickNavs[2]) : window?.lenis?.scrollTo(`#${nav}`)}
             >
               {nav}
             </motion.span>

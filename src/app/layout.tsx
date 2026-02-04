@@ -3,7 +3,6 @@ import "./globals.css";
 import { Buda, Poppins, Roboto_Mono, Zalando_Sans_Expanded } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import LenisProvider from "@/components/LenisProvider";
 
 const buda = Zalando_Sans_Expanded({
   weight: "500",
@@ -66,11 +65,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={` ${buda.className} antialiased overflow-x-hidden bg-black text-white relative`}>
-        <LenisProvider>
           <Navbar />
           {children}
           <Footer />
-        </LenisProvider>
       </body>
     </html>
   );
