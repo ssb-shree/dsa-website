@@ -25,7 +25,7 @@ const Team = () => {
         </h1>
       </Marquee>
 
-      <div className="h-[60vh] w-full flex flex-row justify-center items-center">
+      <div className="h-[50vh] w-full flex flex-row justify-center items-center">
         <Marquee className="[--duration:20s] h-full w-full">
           {memberData.map((member, index) => (
             <MemberCard member={member} key={index} />
@@ -45,7 +45,7 @@ export default Team;
 const MemberCard = ({ member }: { member: MemberType }) => {
   return (
     <motion.div
-      className="h-[90%] md:h-[90%] w-64 md:w-72 border flex flex-col justify-start items-center rounded-xl bg-zinc-200 text-zinc-800 overflow-hidden shadow-md"
+      className="h-[90%] md:h-[90%] w-72 border flex flex-col justify-start items-center rounded-xl bg-zinc-200 text-zinc-800 overflow-hidden shadow-md"
       initial="hidden"
       whileHover="show"
       whileTap="show"
