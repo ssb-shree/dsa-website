@@ -11,13 +11,17 @@ const poppins = Poppins({
 
 const Team = () => {
   return (
-    <section id="team" className=" relative w-screen h-screen bg-[linear-gradient(to_bottom,black_0%,black_80%,white_100%)] overflow-hidden flex flex-col justify-center items-center">
+    <section
+      id="team"
+      className=" relative w-screen h-screen bg-[linear-gradient(to_bottom,black_0%,black_80%,white_100%)] overflow-hidden flex flex-col justify-center items-center"
+    >
       <Marquee reverse>
         <h1
           className={`font-mono text-[10vh] md:text-[15vh] font-bold text-transparent 
                [-webkit-text-stroke:2px_white] uppercase ${poppins.className}`}
         >
-          Meet The Team
+          <span className="hidden md:flex">Meet The Team</span>
+          <span className="flex md:hidden">Team</span>
         </h1>
       </Marquee>
 
