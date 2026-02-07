@@ -13,15 +13,15 @@ app.use(
   cors({
     origin: process.env.STATUS! === "DEV" ? "http://localhost:3000" : process.env.CLIENT_URL,
     credentials: true,
-  })
+  }),
 );
 
 app.use(cookieParser());
 
 app.use(
   morgan(
-    "\x1b[36m:date[web]\x1b[0m \x1b[33m:method\x1b[0m (\x1b[34m:url\x1b[0m) Status[\x1b[32m:status\x1b[0m] - [\x1b[35m:response-time ms\x1b[0m]"
-  )
+    "\x1b[36m:date[web]\x1b[0m \x1b[33m:method\x1b[0m (\x1b[34m:url\x1b[0m) Status[\x1b[32m:status\x1b[0m] - [\x1b[35m:response-time ms\x1b[0m]",
+  ),
 );
 
 import { errorHandler } from "./middlewares/errorHandler.ts";
@@ -29,6 +29,23 @@ import { errorHandler } from "./middlewares/errorHandler.ts";
 app.get("/", (req: Request, res: Response) => {
   res.send("server is up!!");
 });
+
+import AuthRouter from "./routes/auth.routes.ts";
+import EventRouter from "./routes/event.routes.ts";
+import AchivementRouter from "./routes/achivement.routes.ts";
+import TeamRouter from "./routes/team.routes.ts";
+import UploadRouter from "./routes/upload.routes.ts";
+
+app.use("/auth", AuthRouter);
+app.use("/images", UploadRouter);
+
+//global check Auth middleware
+import { checkAuth } from "./middlewares/auth.middleware.ts";
+app.use(checkAuth);
+
+app.use("/teams", TeamRouter);
+app.use("/events", EventRouter);
+app.use("/achivements", AchivementRouter);
 
 app.use(errorHandler);
 

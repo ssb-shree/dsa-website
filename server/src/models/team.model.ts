@@ -31,9 +31,7 @@ const memberSchema = new Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export const MemberModel =
-  models.Member ||
-  mongoose.model<MemberDocument>("Member", memberSchema);
+export const MemberModel = mongoose.model<MemberDocument>("Member", memberSchema);

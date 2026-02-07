@@ -29,4 +29,4 @@ const achivementSchema = new Schema(
   { timestamps: true },
 );
 
-export const AchivementModel = models.Achivements ||mongoose.model<AchivementDocument>("Achivement", achivementSchema);
+export const AchivementModel = mongoose.model<AchivementDocument>("Achivement", achivementSchema);
