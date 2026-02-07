@@ -1,4 +1,5 @@
 export type EventType = {
+  id? : string,
   title: string;
   description: string;
   registrationLink: string | null;
