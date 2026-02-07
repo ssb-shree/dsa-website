@@ -23,7 +23,7 @@ const TeamSection = () => {
   }, []);
 
   // Delete member handler
-  const handleDelete = async (id : string | undefined) => {
+  const handleDelete = async (id: string | undefined) => {
     try {
       await axiosInstance.delete(`/teams/${id}`, { withCredentials: true });
       // Optimistically update the UI
@@ -59,9 +59,9 @@ const MemberCard = ({ member, onDelete }: { member: MemberType; onDelete: (id: s
   return (
     <div className="flex items-center justify-between border p-2 rounded-md">
       <span>{member.name}</span>
-      <button onClick={() => onDelete(member._id)} className="text-red-500 hover:text-red-700 font-bold">
+      {/* <button onClick={() => onDelete(member?._id)} className="text-red-500 hover:text-red-700 font-bold">
         X
-      </button>
+      </button> */}
     </div>
   );
 };
