@@ -17,8 +17,7 @@ const Team = () => {
     >
       <Marquee reverse>
         <h1
-          className={`font-mono text-[10vh] md:text-[15vh] font-bold text-transparent 
-               [-webkit-text-stroke:2px_white] uppercase ${poppins.className}`}
+          className={`font-mono text-[10vh] md:text-[15vh] font-bold text-transparent [-webkit-text-stroke:2px_white] uppercase ${poppins.className}`}
         >
           <span className="hidden md:flex">Meet The Team</span>
           <span className="flex md:hidden">Team</span>
@@ -71,18 +70,18 @@ export const MemberCard = ({ member }: { member: MemberType }) => {
 
       <motion.div className="relative bg-red-500  h-[85%] w-full" initial="hidden" whileHover="show" whileTap="show">
         <img src={member.imgUrl} alt="member photo" className="absolute inset-0 h-full w-full object-contain" />
-
-        <motion.p
-          variants={{
-            hidden: { opacity: 0, y: 10 },
-            show: { opacity: 1, y: 0 },
-          }}
-          transition={{ duration: 0.3 }}
-          className="absolute bottom-2 left-2 text-lg font-medium text-black z-10"
-        >
-          {member.message}
-        </motion.p>
       </motion.div>
     </motion.div>
   );
 };
+
+// {/* // <motion.p
+// //   variants={{
+// //     hidden: { opacity: 0, y: 10 },
+// //     show: { opacity: 1, y: 0 },
+// //   }}
+// //   transition={{ duration: 0.3 }}
+// //   className="absolute bottom-2 left-2 text-lg font-medium text-black z-10"
+// // >
+// //   {member.message}
+// // </motion.p> */}
