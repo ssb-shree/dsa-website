@@ -13,7 +13,7 @@ const memberSchema = z.object({
   year: z.enum(["FE", "SE", "TE", "BE"]),
   role: z.string().min(1).max(30),
   message: z.string().min(1),
-  imgUrl: z.string().min(1).max(30),
+  imgUrl: z.string().url(),
 });
 
 const editMemberSchema = z.object({
@@ -21,7 +21,7 @@ const editMemberSchema = z.object({
   year: z.enum(["FE", "SE", "TE", "BE"]).optional(),
   role: z.string().min(1).max(30).optional(),
   message: z.string().min(1).optional(),
-  imgUrl: z.string().min(1).max(30).optional(),
+  imgUrl: z.string().url().optional(),
 });
 
 export { memberSchema, editMemberSchema };
