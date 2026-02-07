@@ -9,12 +9,38 @@ import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import { EventCards } from "../EventCards";
 
 import { useEventStore } from "@/store/events";
-import { events } from "@/data/events";
+import { events, EventType } from "@/data/events";
+import { useEffect, useState } from "react";
+import axiosInstance from "@/services/axios";
+import LoadingPage from "@/app/loading";
 
 const Events = () => {
   const { currentIndex } = useEventStore();
+
+  const [eventData, setEventData] = useState<EventType[]>([]);
+
+  useEffect(() => {
+    const getEvents = async () => {
+      try {
+        const { data } = await axiosInstance.get("/events");
+
+        setEventData(data.events);
+      } catch (error: any) {
+        console.log(error.message || error);
+      }
+    };
+    getEvents();
+  }, [setEventData]);
+
+    if (eventData.length === 0) {
+      return <LoadingPage />;
+    }
+
   return (
-    <section id="events" className="w-screen md:h-[80vh] overflow-hidden bg-zinc-50 text-black flex flex-col-reverse md:flex-row justify-end py-1 md:justify-around items-center">
+    <section
+      id="events"
+      className="w-screen md:h-[80vh] overflow-hidden bg-zinc-50 text-black flex flex-col-reverse md:flex-row justify-end py-1 md:justify-around items-center"
+    >
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
@@ -24,13 +50,13 @@ const Events = () => {
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="w-[95%] h-[40%] md:w-[55%] md:h-[95%] flex flex-col justify-start md:justify-center items-start gap-y-5 px-3 md:px-20 overflow-hidden"
         >
-          <h1 className="text-lg md:text-4xl uppercase text-nowrap">{events[currentIndex].title}</h1>
+          <h1 className="text-lg md:text-4xl uppercase text-nowrap">{eventData[currentIndex].title}</h1>
 
-          <p className="text-sm md:text-md">{events[currentIndex].description}</p>
+          <p className="text-sm md:text-md">{eventData[currentIndex].description}</p>
 
-          {events[currentIndex].registrationLink ? (
+          {eventData[currentIndex].registrationLink ? (
             <InteractiveHoverButton>
-              <Link href={events[currentIndex].registrationLink} target="_blank">
+              <Link href={eventData[currentIndex].registrationLink} target="_blank">
                 Register For Event
               </Link>
             </InteractiveHoverButton>
@@ -41,11 +67,11 @@ const Events = () => {
             </button>
           )}
 
-          <span className="text-sm">Date : {events[currentIndex].date}</span>
+          <span className="text-sm">Date : {eventData[currentIndex].date}</span>
         </motion.div>
       </AnimatePresence>
       <div className=" w-full h-1/2 md:w-[40%] md:h-[95%] flex justify-center items-center">
-        <EventCards />
+        <EventCards data={eventData} />
       </div>
     </section>
   );

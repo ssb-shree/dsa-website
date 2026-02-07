@@ -3,13 +3,17 @@ import * as motion from "motion/react-client";
 import { Marquee } from "../ui/marquee";
 
 import { Poppins } from "next/font/google";
+import axiosInstance from "@/services/axios";
 
 const poppins = Poppins({
   weight: "700",
   subsets: ["latin"],
 });
 
-const Team = () => {
+const Team = async () => {
+  const { data } = await axiosInstance.get("/teams");
+
+  const memberDataFromServer: MemberType[] = data.members;
   return (
     <section
       id="team"
@@ -26,7 +30,7 @@ const Team = () => {
 
       <div className="h-[50vh] w-full flex flex-row justify-center items-center">
         <Marquee className="[--duration:20s] h-full w-full">
-          {memberData.map((member, index) => (
+          {memberDataFromServer.map((member, index) => (
             <MemberCard member={member} key={index} />
           ))}
         </Marquee>

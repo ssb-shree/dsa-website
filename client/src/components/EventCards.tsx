@@ -9,12 +9,12 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css";
 
-import { events } from "@/data/events";
+import { events, EventType } from "@/data/events";
 
 import { cn } from "@/lib/utils";
 
-const EventCards = () => {
-  const images = events.map((event) => ({
+const EventCards = ({ data }: { data: EventType[] }) => {
+  const images = data.map((event) => ({
     src: event.imgUrl,
     alt: event.title,
   }));
