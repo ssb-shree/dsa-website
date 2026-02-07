@@ -1,4 +1,5 @@
 export type MemberType = {
+  _id?: string;
   name: string;
   year: string;
   role: string;
