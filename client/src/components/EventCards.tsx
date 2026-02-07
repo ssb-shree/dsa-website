@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 const EventCards = () => {
   const images = events.map((event) => ({
-    src: event.bannerUrl,
+    src: event.imgUrl,
     alt: event.title,
   }));
 
