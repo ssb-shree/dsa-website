@@ -42,7 +42,7 @@ const Team = () => {
 
 export default Team;
 
-const MemberCard = ({ member }: { member: MemberType }) => {
+export const MemberCard = ({ member }: { member: MemberType }) => {
   return (
     <motion.div
       className="h-[90%] md:h-[90%] w-72 border flex flex-col justify-start items-center rounded-xl bg-zinc-200 text-zinc-800 overflow-hidden shadow-md"

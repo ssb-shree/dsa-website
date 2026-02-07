@@ -35,7 +35,7 @@ const Footer = () => {
             ))}
           </div>
           <div className="flex flex-col justify-center items-center gap-y-3">
-            <span>list of links 2</span>
+            <span>Navigate</span>
             {[1, 2, 3].map((link, index) => (
               <Link href={"#"} key={index} className="underline text-md">
                 link {link}

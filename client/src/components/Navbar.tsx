@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { IoMdAdd } from "react-icons/io";
 
-const quickNavs = ["events", "team", "achivements"];
+const quickNavs = ["events", "team", "achievements"];
 
 const Navbar = () => {
   const router = useRouter();
@@ -17,8 +17,8 @@ const Navbar = () => {
   const handleNav = async (nav: string) => {
     setOpen(false);
 
-    if (nav === "achivements") {
-      router.push("/achivements");
+    if (nav === "achievements") {
+      router.push("/achievements");
       return;
     }
 
@@ -63,7 +63,7 @@ const Navbar = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
                 onClick={() =>
-                  nav === quickNavs[2] ? router.push("/achivements") : window?.lenis?.scrollTo(`#${nav}`)
+                  nav === quickNavs[2] ? router.push("/achievements") : window?.lenis?.scrollTo(`#${nav}`)
                 }
               >
                 {nav}
