@@ -20,7 +20,7 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
   // commpare the password
   const validPassword = password === adminPassword;
 
-  if (!validPassword && !validUsername) throw new ApiError(CONFLICT, "Invalid username or password");
+  if (!validPassword || !validUsername) throw new ApiError(CONFLICT, "Invalid username or password");
 
   // create a token
   const token = jwt.sign({ userID: adminUsername }, process.env.JWT_SECRET!, { expiresIn: "24hr" });
