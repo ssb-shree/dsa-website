@@ -1,13 +1,13 @@
 import mongoose, { Document, models, Schema } from "mongoose";
 
-interface AchivementDocument extends Document {
+interface AchievementDocument extends Document {
   title: string;
   description: string;
   date: string;
   imgUrl: string;
 }
 
-const achivementSchema = new Schema(
+const achievementSchema = new Schema(
   {
     title: {
       type: String,
@@ -29,4 +29,4 @@ const achivementSchema = new Schema(
   { timestamps: true },
 );
 
-export const AchivementModel = mongoose.model<AchivementDocument>("Achivement", achivementSchema);
+export const AchievementModel = mongoose.model<AchievementDocument>("Achievement", achievementSchema);

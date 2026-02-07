@@ -3,22 +3,22 @@ import { Router } from "express";
 const router = Router();
 
 import {
-  getAllAchivements,
-  addAchivement,
-  editAchivementByID,
-  deleteAchivementByID,
-} from "../controllers/achivement.controller";
+  getAllAchievements,
+  addAchievement,
+  editAchievementByID,
+  deleteAchievementByID,
+} from "../controllers/achievement.controller";
 
-// get all achivements
-router.get("/", getAllAchivements);
+// get all achievements
+router.get("/", getAllAchievements);
 
-// add an achivement
-router.post("/", addAchivement);
+// add an achievement
+router.post("/", addAchievement);
 
-// edit an achivement by id
-router.put("/:id", editAchivementByID);
+// edit an achievement by id
+router.put("/:id", editAchievementByID);
 
-// delete an achivement by id
-router.delete("/:id", deleteAchivementByID);
+// delete an achievement by id
+router.delete("/:id", deleteAchievementByID);
 
 export default router;

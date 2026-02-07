@@ -32,20 +32,16 @@ app.get("/", (req: Request, res: Response) => {
 
 import AuthRouter from "./routes/auth.routes.ts";
 import EventRouter from "./routes/event.routes.ts";
-import AchivementRouter from "./routes/achivement.routes.ts";
+import AchievementRouter from "./routes/achievement.routes.ts";
 import TeamRouter from "./routes/team.routes.ts";
 import UploadRouter from "./routes/upload.routes.ts";
 
 app.use("/auth", AuthRouter);
 app.use("/images", UploadRouter);
 
-//global check Auth middleware
-import { checkAuth } from "./middlewares/auth.middleware.ts";
-app.use(checkAuth);
-
 app.use("/teams", TeamRouter);
 app.use("/events", EventRouter);
-app.use("/achivements", AchivementRouter);
+app.use("/achievements", AchievementRouter);
 
 app.use(errorHandler);
 
