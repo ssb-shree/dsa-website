@@ -5,14 +5,20 @@ import axiosInstance from "@/services/axios";
 
 type TeamFormProps = {
   onClose?: () => void;
+  task?: "new" | "edit";
+  existingState?: { name: string; year: string; role: string; imgUrl: string };
 };
 
-const TeamForm = ({ onClose }: TeamFormProps) => {
+const TeamForm = ({
+  onClose,
+  task = "new",
+  existingState = { name: "", year: "", role: "", imgUrl: "" },
+}: TeamFormProps) => {
   // make below 4 in one object and its imgUrl not imgUrl
-  const [name, setName] = useState("");
-  const [year, setYear] = useState("");
-  const [role, setRole] = useState("");
-  const [imgUrl, setimgUrl] = useState("");
+  const [name, setName] = useState(existingState.name);
+  const [year, setYear] = useState(existingState.year);
+  const [role, setRole] = useState(existingState.role);
+  const [imgUrl, setimgUrl] = useState(existingState.imgUrl);
 
   const [message, setMessage] = useState("");
 

@@ -59,9 +59,6 @@ const EventCard = ({ data }: { data: EventType }) => {
       {/* Title */}
       <h3 className="font-semibold text-lg">{data.title}</h3>
 
-      {/* Description */}
-      <p className="text-sm mt-1">{data.description}</p>
-
       {/* Date */}
       <p className="text-xs text-gray-500 mt-1">{data.date}</p>
 

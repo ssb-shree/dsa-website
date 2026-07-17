@@ -5,10 +5,14 @@ const uri = process.env.MONGO_URI!;
 
 const connectDB = async () => {
   try {
-    const connection = await mongoose.connect(uri);
+    const connection = await mongoose.connect(uri, {
+      family: 4,
+      serverSelectionTimeoutMS: 10000,
+    });
     return connection;
   } catch (error: any) {
-    logger.error(`DB connection failed due to ${error.message || error}`);
+    console.log(error);
+    // logger.error(`DB connection failed due to ${error}`);
     return null;
   }
 };

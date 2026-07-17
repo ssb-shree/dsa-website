@@ -14,11 +14,18 @@ const socialLinks: { name: string; link: string }[] = [
 const Footer = () => {
   return (
     <>
-      <footer id="socials" className="w-screen h-[40vh] md:h-[30vh] p-2 overflow-x-hidden flex flex-col md:flex-row gap-y-3 justify-around items-center">
+      <footer
+        id="socials"
+        className="w-screen h-[40vh] md:h-[30vh] p-2 overflow-x-hidden flex flex-col md:flex-row gap-y-3 justify-around items-center"
+      >
         <div className="w-full md:w-[35%] flex flex-col justify-center items-start">
           <span className="text-8xl md:text-9xl text-red-600 tracking-widest flex flex-row justify-center items-center space-x-2">
             {"DSA".split("").map((letter, index) => (
-              <motion.span key={index} whileHover={{ y: -2, scale: 1.2 }} className="inline-block hover:cursor-pointer font-extrabold">
+              <motion.span
+                key={index}
+                whileHover={{ y: -2, scale: 1.2 }}
+                className="inline-block hover:cursor-pointer font-extrabold"
+              >
                 {letter}
               </motion.span>
             ))}

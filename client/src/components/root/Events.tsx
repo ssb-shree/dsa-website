@@ -17,24 +17,24 @@ import LoadingPage from "@/app/loading";
 const Events = () => {
   const { currentIndex } = useEventStore();
 
-  const [eventData, setEventData] = useState<EventType[]>([]);
+  const [eventData, setEventData] = useState<EventType[]>(events);
 
-  useEffect(() => {
-    const getEvents = async () => {
-      try {
-        const { data } = await axiosInstance.get("/events");
+  // useEffect(() => {
+  //   const getEvents = async () => {
+  //     try {
+  //       const { data } = await axiosInstance.get("/events");
 
-        setEventData(data.events);
-      } catch (error: any) {
-        console.log(error.message || error);
-      }
-    };
-    getEvents();
-  }, [setEventData]);
+  //       setEventData(events);
+  //     } catch (error: any) {
+  //       console.log(error.message || error);
+  //     }
+  //   };
+  //   getEvents();
+  // }, [setEventData]);
 
-    if (eventData.length === 0) {
-      return <LoadingPage />;
-    }
+  // if (eventData.length === 0) {
+  //   return <LoadingPage />;
+  // }
 
   return (
     <section
@@ -50,7 +50,7 @@ const Events = () => {
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="w-[95%] h-[40%] md:w-[55%] md:h-[95%] flex flex-col justify-start md:justify-center items-start gap-y-5 px-3 md:px-20 overflow-hidden"
         >
-          <h1 className="text-lg md:text-4xl uppercase text-nowrap">{eventData[currentIndex].title}</h1>
+          <h1 className="text-lg md:text-4xl uppercase text-wrap">{eventData[currentIndex].title}</h1>
 
           <p className="text-sm md:text-md">{eventData[currentIndex].description}</p>
 
