@@ -1,25 +1,79 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Schema, type ObjectId } from "mongoose";
 import { comparePassword, hashPassword } from "../utils/bcrypt";
 
 export interface UserDocument extends mongoose.Document {
-  username: string;
+  _id: ObjectId;
+  moodleID: string;
   password: string;
+  email: string;
+  name: string;
+  year: string;
+  division: string;
+  department: string;
+  role: string;
+  organizationID: ObjectId[];
+  registeredEvents: ObjectId[];
   comparePassword(value: string): Promise<boolean>;
 }
 
 const userSchema = new Schema<UserDocument>(
   {
-    username: {
+    moodleID: {
+      type: String,
+      required: true,
+      unique: true,
+      maxLength: 8,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
       type: String,
       required: true,
       unique: true,
     },
+    year: {
+      type: String,
+      required: true,
+      enum: ["FE", "SE", "TE", "BE"],
+    },
     password: {
       type: String,
       required: true,
+      minlength: 6,
     },
+    division: {
+      type: String,
+      required: true,
+      maxlength: 1,
+    },
+    department: {
+      type: String,
+      required: true,
+      enum: ["DS", "AIML", "IT", "COMP", "CIVIL", "MECH"],
+    },
+    role: {
+      type: String,
+      required: true,
+      enum: ["USER", "ORGANIZOR", "ADMIN"],
+      default: "USER",
+    },
+    organizationID: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Organization",
+      },
+    ],
+    registeredEvents: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Event",
+        default: [],
+      },
+    ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 userSchema.pre("save", async function (next) {
@@ -28,10 +82,47 @@ userSchema.pre("save", async function (next) {
   } else {
     next();
   }
+
+  // since DSE year is 1 up than others not using this for  nows
+
+  // if (this.isNew) {
+  //   const admissionYear = Number(this.moodleID.slice(0, 2));
+  //   const currentYear = new Date().getFullYear() % 100;
+
+  //   const calculatedYear = currentYear - admissionYear;
+
+  //   if (calculatedYear <= 0 || calculatedYear > 6) {
+  //     return next(new Error("Invalid moodleID: cannot derive academic year"));
+  //   }
+
+  //   const validYears: Record<number, string> = {
+  //     1: "FE",
+  //     2: "SE",
+  //     3: "TE",
+  //     4: "BE",
+  //   };
+
+  //   validYears[calculatedYear] ? (this.year = validYears[calculatedYear]) : (this.year = "N/A");
+  // }
 });
+
+
+// WILL FIX THIS LATER
+
+// userSchema.pre("findOneAndUpdate", async function (next) {
+//   const update = this.getUpdate();
+
+//   if (update.password) {
+//     update.password = await hashPassword(update.password);
+//   }
+
+//   next();
+// });
 
 userSchema.methods.comparePassword = async function (pass: string) {
   return await comparePassword(pass, this.password);
 };
 
 export const User = mongoose.model<UserDocument>("User", userSchema);
+
+// add registerdEvents[] by id

@@ -26,22 +26,33 @@ app.use(
 
 import { errorHandler } from "./middlewares/errorHandler.ts";
 
+import AuthRouter from "./routes/auth.routes.ts";
+import OrganizationRouter from "./routes/organization.routes.ts";
+import EventsRouter from "./routes/event.routes.ts";
+import FeedbackRouter from "./routes/feedback.routes.ts";
+
 app.get("/", (req: Request, res: Response) => {
   res.send("server is up!!");
 });
 
-import AuthRouter from "./routes/auth.routes.ts";
-import EventRouter from "./routes/event.routes.ts";
-import AchievementRouter from "./routes/achievement.routes.ts";
-import TeamRouter from "./routes/team.routes.ts";
-import UploadRouter from "./routes/upload.routes.ts";
+import { Event } from "./models/events.model.ts";
+import { User } from "./models/user.model.ts";
+import asyncHandler from "./utils/asyncHandler.ts";
+
+app.get(
+  "/stats",
+  asyncHandler(async (req: Request, res: Response) => {
+    const eventCount = await Event.countDocuments();
+    const userCount = await User.countDocuments();
+
+    res.status(200).json({ eventCount, userCount, message: "stats fetched successfully" });
+  }),
+);
 
 app.use("/auth", AuthRouter);
-app.use("/images", UploadRouter);
-
-app.use("/teams", TeamRouter);
-app.use("/events", EventRouter);
-app.use("/achievements", AchievementRouter);
+app.use("/organizations", OrganizationRouter);
+app.use("/events", EventsRouter);
+app.use("/feedbacks", FeedbackRouter);
 
 app.use(errorHandler);
 

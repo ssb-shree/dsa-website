@@ -2,23 +2,45 @@ import { Router } from "express";
 
 const router = Router();
 
+import { checkAuth } from "../middlewares/auth.middleware";
+
 import {
+  deleteEvent,
   getAllEvents,
-  addEvent,
-  editEventByID,
-  deleteEventByID,
+  getAttendedStudents,
+  getEventBySlug,
+  getRegisteredStudents,
+  hostEvent,
+  markAttendanceForEvent,
+  registerForEvent,
+  updateEventInformation,
 } from "../controllers/event.controller";
 
 // get all events
 router.get("/", getAllEvents);
 
-// add an event
-router.post("/", addEvent);
+// get one event by ID
+router.get("/:slug", getEventBySlug);
 
-// edit an event by id
-router.put("/:id", editEventByID);
+// organizors can host an event
+router.post("/", checkAuth, hostEvent);
 
-// delete an event by id
-router.delete("/:id", deleteEventByID);
+// organizors can update information of a event
+router.patch("/:eventID", checkAuth, updateEventInformation);
+
+// organizors can delete a hosted event
+router.delete("/:eventID", checkAuth, deleteEvent);
+
+// users to register for an hoster event
+router.post("/:eventID/register", checkAuth, registerForEvent);
+
+// organizors can add attended student
+router.post("/:eventID/attended", checkAuth, markAttendanceForEvent);
+
+// organizors can get the list of registerd student
+router.get("/:eventID/register", checkAuth, getRegisteredStudents);
+
+// organizors can get the list of attended students
+router.get("/:eventID/attended", checkAuth, getAttendedStudents);
 
 export default router;

@@ -7,6 +7,9 @@ import ApiError from "../utils/apiError";
 import { z } from "zod";
 import { JsonWebTokenError } from "jsonwebtoken";
 
+import mongoose from "mongoose";
+import { MongoServerError } from "mongodb";
+
 const zodErrorHandler = (res: Response, error: z.ZodError) => {
   // error.issues object has path which is field and message is the reason why parsing failed
   const errors = error.issues.map((err) => ({ path: err.path.join(","), message: err.message }));
@@ -20,7 +23,7 @@ const apiErrorHandler = (res: Response, error: ApiError) => {
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   logger.error({
     message: err.message || "Unknown Error",
-    // stack: err.stack,
+    // stack: err.stack,s
     path: req.path,
     method: req.method,
   });
@@ -35,6 +38,38 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
   if (err instanceof JsonWebTokenError) {
     return res.status(BAD_REQUEST).json({ message: err.message, success: false });
+  }
+
+  // Mongoose Validation Error
+  if (err instanceof mongoose.Error.ValidationError) {
+    const errors = Object.values(err.errors).map((e: any) => ({
+      path: e.path,
+      message: e.message,
+    }));
+
+    return res.status(BAD_REQUEST).json({
+      message: "Validation failed",
+      errors,
+      success: false,
+    });
+  }
+
+  // Mongoose Cast Error (invalid ObjectId)
+  if (err instanceof mongoose.Error.CastError) {
+    return res.status(BAD_REQUEST).json({
+      message: `Invalid ${err.path}: ${err.value}`,
+      success: false,
+    });
+  }
+
+  // Duplicate key error (E11000)
+  if (err instanceof MongoServerError && err.code === 11000) {
+    const field = Object.keys(err.keyValue)[0];
+
+    return res.status(BAD_REQUEST).json({
+      message: `${field} already exists`,
+      success: false,
+    });
   }
 
   res.status(INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error", success: false });
