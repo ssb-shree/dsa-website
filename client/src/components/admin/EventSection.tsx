@@ -41,7 +41,7 @@ const EventSection = () => {
       {/* Event list */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {eventData.map((event) => (
-          <EventCard key={event.id} data={event} />
+          <EventCard key={event.title} data={event} />
         ))}
       </div>
 
