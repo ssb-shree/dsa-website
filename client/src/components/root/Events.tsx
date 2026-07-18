@@ -39,7 +39,7 @@ const Events = () => {
   return (
     <section
       id="events"
-      className="w-screen md:h-[80vh] overflow-hidden bg-zinc-50 text-black flex flex-col-reverse md:flex-row justify-end py-1 md:justify-around items-center"
+      className="w-screen md:h-[80vh] overflow-hidden bg-zinc-200 text-black flex flex-col-reverse md:flex-row justify-end py-1 md:justify-around items-center"
     >
       <AnimatePresence mode="wait">
         <motion.div
