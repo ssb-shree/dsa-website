@@ -101,8 +101,8 @@ const BoreTeam = async () => {
 
       <div className="h-[40vh] md:h-[50vh] w-full flex flex-row justify-center items-center">
         <Marquee className="[--duration:20s] h-full w-full">
-          <MemberStack memberArray={core} type="CORE" />
-          <MemberStack memberArray={technical} type="TECHNICAL" />
+          <MemberStack memberArray={core} type="CORE" key={"CORE"} />
+          <MemberStack memberArray={technical} type="TECHNICAL" key={"TECHNICAL"} />
         </Marquee>
 
       </div>
