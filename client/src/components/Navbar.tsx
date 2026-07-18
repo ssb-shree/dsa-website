@@ -37,7 +37,7 @@ const Navbar = () => {
     // small delay so DOM + lenis are ready
     setTimeout(() => {
       window?.lenis?.scrollTo(`#${nav}`);
-    }, 800);
+    }, 1000);
   };
 
   return (
@@ -62,9 +62,7 @@ const Navbar = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
-                onClick={() =>
-                  nav === quickNavs[2] ? router.push("/achievements") : window?.lenis?.scrollTo(`#${nav}`)
-                }
+                 onClick={() => handleNav(nav)}
               >
                 {nav}
               </motion.span>
