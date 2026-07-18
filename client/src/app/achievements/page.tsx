@@ -6,7 +6,9 @@ import axiosInstance from "@/services/axios";
 import LoadingPage from "../loading";
 
 const AchievementsPage = async () => {
-  const { data } = await axiosInstance.get("/achievements");
+  const { data } = await axiosInstance.get(`/achievements`);
+
+  console.log(data)
 
   if (data.achievements.length === 0) {
     return <LoadingPage />;

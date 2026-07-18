@@ -29,7 +29,7 @@ const Highlights = () => {
         <h1 className={`${buda.className} h-[15%] md:h-[25%] w-full flex justify-center items-center text-[5vh] md:text-[10vh]`}>HIGHLIGHTS</h1>
         <div className="h-[75%] w-full flex flex-col flex-wrap gap-2 justify-start items-start p-5">
           {dummyEventLIst.map((name, index) => (
-            <span className="capitalize hover:cursor-pointer md:text-xl">{`[ ${name} ]`}</span>
+            <span key={name} className="capitalize hover:cursor-pointer md:text-xl">{`[ ${name} ]`}</span>
           ))}
         </div>
       </div>
