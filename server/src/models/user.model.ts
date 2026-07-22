@@ -5,7 +5,7 @@ export interface UserDocument extends mongoose.Document {
   _id: ObjectId;
   moodleID: string;
   password: string;
-  email: string;
+
   name: string;
   year: string;
   division: string;
@@ -28,11 +28,7 @@ const userSchema = new Schema<UserDocument>(
       type: String,
       required: true,
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
+
     year: {
       type: String,
       required: true,
@@ -82,30 +78,7 @@ userSchema.pre("save", async function (next) {
   } else {
     next();
   }
-
-  // since DSE year is 1 up than others not using this for  nows
-
-  // if (this.isNew) {
-  //   const admissionYear = Number(this.moodleID.slice(0, 2));
-  //   const currentYear = new Date().getFullYear() % 100;
-
-  //   const calculatedYear = currentYear - admissionYear;
-
-  //   if (calculatedYear <= 0 || calculatedYear > 6) {
-  //     return next(new Error("Invalid moodleID: cannot derive academic year"));
-  //   }
-
-  //   const validYears: Record<number, string> = {
-  //     1: "FE",
-  //     2: "SE",
-  //     3: "TE",
-  //     4: "BE",
-  //   };
-
-  //   validYears[calculatedYear] ? (this.year = validYears[calculatedYear]) : (this.year = "N/A");
-  // }
 });
-
 
 // WILL FIX THIS LATER
 
@@ -124,5 +97,3 @@ userSchema.methods.comparePassword = async function (pass: string) {
 };
 
 export const User = mongoose.model<UserDocument>("User", userSchema);
-
-// add registerdEvents[] by id

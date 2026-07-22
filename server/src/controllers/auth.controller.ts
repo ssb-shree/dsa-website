@@ -10,17 +10,15 @@ import type { AuthenticatedRequest } from "../middlewares/auth.middleware";
 
 const registerController = asyncHandler(async (req: Request, res: Response) => {
   // let zod validate the payload
-  const { moodleID, name, email, password, department, division, year } = registerSchema.parse(req.body);
+  const { moodleID, name,  password, department, division, year } = registerSchema.parse(req.body);
 
   // check if the user alreadu exists
   const isMoodleTaken = await User.findOne({ moodleID });
-  const isEmailTaken = await User.findOne({ email });
 
   if (isMoodleTaken) throw new ApiError(409, "moodleID is already in use");
-  if (isEmailTaken) throw new ApiError(409, "email is already in use");
 
   // create the user
-  const user = await User.create({ moodleID, name, email, password, department, division, year });
+  const user = await User.create({ moodleID, name,  password, department, division, year });
 
   // create a token
   const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET!, { expiresIn: "24hr" });

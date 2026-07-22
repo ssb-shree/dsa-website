@@ -3,7 +3,7 @@ import z from "zod";
 const registerSchema = z.object({
   moodleID: z.string().regex(/^\d{8}$/, "Moodle ID must be exactly 8 digits"),
   name: z.string().min(6).max(255),
-  email: z.string().email(),
+
   password: z.string().min(6).max(255),
   year: z.enum(["FE", "SE", "TE", "BE"]),
   division: z.string().length(1),
@@ -25,7 +25,6 @@ const updateSchema = z.object({
     .regex(/^\d{8}$/, "Moodle ID must be exactly 8 digits")
     .optional(),
   name: z.string().min(6).max(255).optional(),
-  email: z.string().email().optional(),
   password: z.string().min(6).max(255).optional(),
   year: z.enum(["FE", "SE", "TE", "BE"]).optional(),
   division: z.string().length(1).optional(),
