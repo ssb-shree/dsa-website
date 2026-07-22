@@ -25,7 +25,7 @@ const Highlights = () => {
         </div>
       </div>
 
-      <div className="h-full w-full md:w-[40%] flex flex-col md:flex-col-reverse">
+      <div className="h-full w-full md:w-[40%] flex flex-col">
         <h1 className={`${buda.className} h-[15%] md:h-[25%] w-full flex justify-center items-center text-[5vh] md:text-[10vh]`}>HIGHLIGHTS</h1>
         <div className="h-[75%] w-full flex flex-col flex-wrap gap-2 justify-start items-start p-5">
           {dummyEventLIst.map((name, index) => (
