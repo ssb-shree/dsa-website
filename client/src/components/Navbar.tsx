@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { IoMdAdd } from "react-icons/io";
+
+import { useUserStore } from "@/store/user";
 
 const quickNavs = ["events", "team", "achievements"];
 
@@ -13,6 +15,8 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  const { isAuth } = useUserStore();
 
   const handleNav = async (nav: string) => {
     setOpen(false);
@@ -62,7 +66,7 @@ const Navbar = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
-                 onClick={() => handleNav(nav)}
+                onClick={() => handleNav(nav)}
               >
                 {nav}
               </motion.span>
@@ -78,9 +82,9 @@ const Navbar = () => {
         </div>
 
         {/* DESKTOP LOGIN */}
-        <Link href="/login" className="hidden md:flex flex-col cursor-pointer">
+        <Link href={isAuth ? "/profile" : "/login"} className="hidden md:flex flex-col cursor-pointer">
           <motion.span initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }}>
-            Login
+            {isAuth ? "Profile" : "Login"}
           </motion.span>
           <motion.div
             className="bg-white h-[1px] w-full"

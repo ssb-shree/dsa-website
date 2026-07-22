@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Buda, Poppins, Roboto_Mono, Zalando_Sans_Expanded } from "next/font/google";
+import { Zalando_Sans_Expanded } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
 
-import {Toaster} from "react-hot-toast"
+import { Toaster } from "react-hot-toast";
+import AuthProvider from "@/components/AuthProvider";
 
 const buda = Zalando_Sans_Expanded({
   weight: "500",
@@ -71,7 +72,7 @@ export default function RootLayout({
         <SmoothCursor />
         <Navbar />
         <Toaster position="bottom-right" reverseOrder={false} />
-        {children}
+        <AuthProvider>{children}</AuthProvider>
         <Footer />
       </body>
     </html>
