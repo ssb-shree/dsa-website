@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
 
+import {Toaster} from "react-hot-toast"
+
 const buda = Zalando_Sans_Expanded({
   weight: "500",
   subsets: ["latin"],
@@ -68,6 +70,7 @@ export default function RootLayout({
       <body className={` ${buda.className} antialiased overflow-x-hidden bg-black text-white relative`}>
         <SmoothCursor />
         <Navbar />
+        <Toaster position="bottom-right" reverseOrder={false} />
         {children}
         <Footer />
       </body>

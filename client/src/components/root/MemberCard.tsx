@@ -35,7 +35,7 @@ const MemberStack = ({ memberArray, type }: { memberArray: MemberType[]; type: s
 
 export default MemberStack;
 
-const MemberCard = ({ member, num, onClick }: { member: MemberType; num: number; onClick: () => void }) => {
+const MemberCard = ({ member, num, onClick,  }: { member: MemberType; num: number; onClick: () => void }) => {
   return (
     <motion.div
       layout
