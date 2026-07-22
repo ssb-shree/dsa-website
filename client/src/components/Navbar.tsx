@@ -138,10 +138,10 @@ const Navbar = () => {
                 className="mt-4 text-[2.25rem] font-semibold tracking-tight text-blue-700 cursor-pointer transition hover:translate-x-1 border-0 border-b border-blue-300"
                 onClick={() => {
                   setOpen(false);
-                  router.push("/login");
+                  router.push(isAuth ? "/profile" : "/login");
                 }}
               >
-                Login
+                {isAuth ? "Profile" : "Login"}
               </span>
             </div>
 
