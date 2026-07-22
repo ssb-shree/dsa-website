@@ -10,7 +10,7 @@ import axiosInstance from "@/services/axios";
 import Cookie from "js-cookie";
 import { toasty } from "@/components/ToastProvider";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const RegisterPage = () => {
   const [registerData, setRegisterData] = useState<{
@@ -52,7 +52,8 @@ const RegisterPage = () => {
     try {
       const { moodleID, password, name, department, division, year } = registerData;
 
-      if (!moodleID || !password || !name || !department || !division || !year) return toasty("incomplete form cant be submitted");
+      if (!moodleID || !password || !name || !department || !division || !year)
+        return toasty("incomplete form cant be submitted");
 
       const { data } = await axiosInstance.post("/auth/register", registerData, { withCredentials: true });
 
@@ -61,147 +62,183 @@ const RegisterPage = () => {
       router.push("/profile");
     } catch (error: any) {
       console.log(error.message || error);
+      if (error.message.response.data.errors.length > 0) {
+        return error.response.data.errors.map((err: { path: string; message: string }) => toasty(err.message));
+      }
+
       toasty(error.response.data.message);
     }
   };
 
   return (
-    <section className=" relative w-screen h-screen overflow-hidden bg-transparent flex justify-center items-center">
+    <section className="relative min-h-screen flex items-center justify-center px-6">
       <div className="absolute inset-0 -z-10 bg-[#131F43] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
+
       <motion.div
-        initial={{ opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        className="flex flex-col space-y-20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-3xl flex flex-col gap-10"
       >
-        {/* moodleID */}
-        <motion.div
-          custom={0}
-          variants={fieldVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex items-center space-x-5"
-        >
-          <IdCard />
-          <input
-            className="border-0 border-b bg-transparent uppercase text-lg md:text-xl outline-none"
-            placeholder="moodle ID"
-            value={registerData.moodleID}
-            onChange={(e) => setRegisterData((p) => ({ ...p, moodleID: e.target.value.toLowerCase() }))}
-            type="text"
-          />
-        </motion.div>
-
-        {/* Password */}
-        <motion.div
-          custom={1}
-          variants={fieldVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex items-center space-x-5"
-        >
-          <Lock />
-          <input
-            className="border-0 border-b bg-transparent uppercase text-lg md:text-xl outline-none"
-            placeholder="password"
-            value={registerData.password}
-            onChange={(e) => setRegisterData((p) => ({ ...p, password: e.target.value.toLowerCase() }))}
-            type="password"
-          />
-        </motion.div>
-
-        {/* Full Name */}
-        <motion.div
-          custom={0}
-          variants={fieldVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex items-center space-x-5"
-        >
-          <User2 />
-          <input
-            className="border-0 border-b bg-transparent uppercase text-lg md:text-xl outline-none"
-            placeholder="Full Name"
-            value={registerData.name}
-            onChange={(e) => setRegisterData((p) => ({ ...p, name: e.target.value.toLowerCase() }))}
-            type="text"
-          />
-        </motion.div>
-
-        {/* Department related details  */}
-        <div className="grid grid-cols-3 gap-3">
-          <label className="form-control w-full ">
-            <select
-              className="border-0 border-b bg-transparent uppercase text-lg md:text-xl outline-none w-full"
-              value={registerData.department}
-              onChange={(e) => setRegisterData((p) => ({ ...p, department: e.target.value }))}
-            >
-              <option className="bg-[#131F43] border " disabled value="">
-                Dept
-              </option>
-              {departments.map((val, index) => (
-                <option className="bg-[#131F43] uppercase text-sm md:text-lg outline-none " key={index} value={val}>
-                  {val}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="form-control w-full ">
-            <select
-              className="border-0 border-b bg-transparent uppercase text-lg md:text-xl outline-none w-full"
-              value={registerData.division}
-              onChange={(e) => setRegisterData((p) => ({ ...p, division: e.target.value }))}
-            >
-              <option className="bg-[#131F43] border " disabled value="">
-                Div
-              </option>
-              {divisions.map((val, index) => (
-                <option
-                  className="bg-[#131F43] underline uppercase text-sm md:text-lg outline-none "
-                  key={index}
-                  value={val}
-                >
-                  {val}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="form-control w-full ">
-            <select
-              className="border-0 border-b bg-transparent uppercase text-lg md:text-xl outline-none w-full"
-              value={registerData.year}
-              onChange={(e) => setRegisterData((p) => ({ ...p, year: e.target.value }))}
-            >
-              <option className="bg-[#131F43] border " disabled value="">
-                Year
-              </option>
-              {years.map((val, index) => (
-                <option className="bg-[#131F43] uppercase text-sm md:text-lg outline-none " key={index} value={val}>
-                  {val}
-                </option>
-              ))}
-            </select>
-          </label>
+        {/* Heading */}
+        <div>
+          <h1 className="text-4xl font-bold uppercase">Register with dsa</h1>
+          <p className="text-sm opacity-60 mt-2">Enter your academic details to continue.</p>
         </div>
 
-        {/* Button */}
+        {/* Basic */}
+        <div className="flex flex-col gap-8">
+          <motion.div
+            custom={0}
+            variants={fieldVariants}
+            initial="hidden"
+            animate="visible"
+            className="flex items-center gap-4"
+          >
+            <IdCard className="shrink-0" />
+
+            <input
+              className="flex-1 border-0 border-b bg-transparent outline-none uppercase text-lg"
+              placeholder="Moodle ID"
+              value={registerData.moodleID}
+              onChange={(e) =>
+                setRegisterData((p) => ({
+                  ...p,
+                  moodleID: e.target.value.toLowerCase(),
+                }))
+              }
+            />
+          </motion.div>
+
+          <motion.div
+            custom={1}
+            variants={fieldVariants}
+            initial="hidden"
+            animate="visible"
+            className="flex items-center gap-4"
+          >
+            <User2 className="shrink-0" />
+
+            <input
+              className="flex-1 border-0 border-b bg-transparent outline-none uppercase text-lg"
+              placeholder="Full Name"
+              value={registerData.name}
+              onChange={(e) =>
+                setRegisterData((p) => ({
+                  ...p,
+                  name: e.target.value,
+                }))
+              }
+            />
+          </motion.div>
+        </div>
+
+        {/* Academic */}
         <motion.div
           custom={2}
           variants={fieldVariants}
           initial="hidden"
           animate="visible"
-          className="flex justify-center"
+          className="flex flex-wrap gap-6"
         >
+          <select
+            className="flex-1 min-w-[180px] border-0 border-b bg-transparent outline-none uppercase text-lg"
+            value={registerData.department}
+            onChange={(e) =>
+              setRegisterData((p) => ({
+                ...p,
+                department: e.target.value,
+              }))
+            }
+          >
+            <option className="bg-[#131F43]" disabled value="">
+              Department
+            </option>
+
+            {departments.map((dept) => (
+              <option key={dept} value={dept} className="bg-[#131F43]">
+                {dept}
+              </option>
+            ))}
+          </select>
+
+          <select
+            className="flex-1 min-w-[120px] border-0 border-b bg-transparent outline-none uppercase text-lg"
+            value={registerData.division}
+            onChange={(e) =>
+              setRegisterData((p) => ({
+                ...p,
+                division: e.target.value,
+              }))
+            }
+          >
+            <option className="bg-[#131F43]" disabled value="">
+              Division
+            </option>
+
+            {divisions.map((div) => (
+              <option key={div} value={div} className="bg-[#131F43]">
+                {div}
+              </option>
+            ))}
+          </select>
+
+          <select
+            className="flex-1 min-w-[120px] border-0 border-b bg-transparent outline-none uppercase text-lg"
+            value={registerData.year}
+            onChange={(e) =>
+              setRegisterData((p) => ({
+                ...p,
+                year: e.target.value,
+              }))
+            }
+          >
+            <option className="bg-[#131F43]" disabled value="">
+              Year
+            </option>
+
+            {years.map((year) => (
+              <option key={year} value={year} className="bg-[#131F43]">
+                {year}
+              </option>
+            ))}
+          </select>
+        </motion.div>
+
+        {/* Password */}
+        <motion.div
+          custom={3}
+          variants={fieldVariants}
+          initial="hidden"
+          animate="visible"
+          className="flex items-center gap-4"
+        >
+          <Lock className="shrink-0" />
+
+          <input
+            className="flex-1 border-0 border-b bg-transparent outline-none text-lg"
+            placeholder="Password"
+            type="password"
+            value={registerData.password}
+            onChange={(e) =>
+              setRegisterData((p) => ({
+                ...p,
+                password: e.target.value,
+              }))
+            }
+          />
+        </motion.div>
+
+        {/* Button */}
+        <motion.div custom={4} variants={fieldVariants} initial="hidden" animate="visible" className="flex justify-end">
           <motion.button
-            whileHover={{ y: -6 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ x: 6 }}
+            whileTap={{ scale: 0.96 }}
             transition={{ type: "spring", stiffness: 300 }}
-            className="text-xl border-b text-white hover:cursor-pointer"
+            className="border-b text-lg uppercase tracking-wide cursor-pointer"
             onClick={handleRegister}
           >
-            Submit
+            Submit Details
           </motion.button>
         </motion.div>
       </motion.div>
