@@ -3,14 +3,15 @@ import { create } from "zustand";
 export type UserType = {
   department: string;
   division: string;
-  email: string;
   moodleID: string;
   name: string;
+  year : string;
   organizationID: { _id: string; name: string; slug: string; logoUrl: string }[];
   registeredEvents: { title: string; _id: string; slug: string }[];
   role: string;
   _id: string;
   createdAt: string;
+  updatedAt: string;
 };
 
 type userStore = {
