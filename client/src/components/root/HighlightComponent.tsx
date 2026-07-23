@@ -3,6 +3,7 @@
 import { Zalando_Sans_Expanded } from "next/font/google";
 import { useState } from "react";
 import { HighlightType } from "./Highlights";
+import LoadingPage from "@/app/loading";
 
 const buda = Zalando_Sans_Expanded({
   weight: "700",
@@ -11,6 +12,10 @@ const buda = Zalando_Sans_Expanded({
 
 const HighlightComponent = ({ data }: { data: HighlightType[] }) => {
   const [activeHighlight, setActiveHighlight] = useState(data[0]);
+
+  if (!data.length) {
+    return <LoadingPage />;
+  }
 
   return (
     <section
@@ -22,10 +27,18 @@ const HighlightComponent = ({ data }: { data: HighlightType[] }) => {
         </div>
         <div className="h-full w-[60%] flex flex-col justify-start gap-2 items-start">
           <div className="h-[40%] w-full border flex justify-center items-center">
-            <img src={activeHighlight.img2Url || ""} alt={activeHighlight.title} className="h-full w-full object-cover" />
+            <img
+              src={activeHighlight.img2Url || ""}
+              alt={activeHighlight.title}
+              className="h-full w-full object-cover"
+            />
           </div>
           <div className="h-[45%] w-[70%] border flex justify-center items-center">
-            <img src={activeHighlight.img3Url || ""} alt={activeHighlight.title} className="h-full w-full object-cover" />
+            <img
+              src={activeHighlight.img3Url || ""}
+              alt={activeHighlight.title}
+              className="h-full w-full object-cover"
+            />
           </div>
         </div>
       </div>
