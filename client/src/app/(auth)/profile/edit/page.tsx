@@ -78,7 +78,11 @@ const ProfileUpdatePage = () => {
 
       router.push("/profile");
     } catch (error: any) {
-      console.log(error.message || error);
+       console.log(error.message || error);
+      if (error.message.response.data.errors.length > 0) {
+        return error.response.data.errors.map((err: { path: string; message: string }) => toasty(err.message));
+      }
+
       toasty(error.response.data.message);
     }
   };
