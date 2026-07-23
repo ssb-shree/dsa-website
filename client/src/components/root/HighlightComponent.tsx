@@ -18,14 +18,14 @@ const HighlightComponent = ({ data }: { data: HighlightType[] }) => {
     >
       <div className="h-full w-full md:w-[60%] flex flex-row gap-2 justify-center items-start p-3">
         <div className="h-[90%] w-[40%] flex justify-center items-center border">
-          <img src={activeHighlight.img1Url} alt={activeHighlight.title} className="h-full w-full object-cover" />
+          <img src={activeHighlight.img1Url || ""} alt={activeHighlight.title} className="h-full w-full object-cover" />
         </div>
         <div className="h-full w-[60%] flex flex-col justify-start gap-2 items-start">
           <div className="h-[40%] w-full border flex justify-center items-center">
-            <img src={activeHighlight.img2Url} alt={activeHighlight.title} className="h-full w-full object-cover" />
+            <img src={activeHighlight.img2Url || ""} alt={activeHighlight.title} className="h-full w-full object-cover" />
           </div>
           <div className="h-[45%] w-[70%] border flex justify-center items-center">
-            <img src={activeHighlight.img3Url} alt={activeHighlight.title} className="h-full w-full object-cover" />
+            <img src={activeHighlight.img3Url || ""} alt={activeHighlight.title} className="h-full w-full object-cover" />
           </div>
         </div>
       </div>
