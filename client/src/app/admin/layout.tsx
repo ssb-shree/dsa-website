@@ -1,25 +1,27 @@
 "use client";
-import axiosInstance from "@/services/axios";
 
-import { useEffect, useState } from "react";
+import { useUserStore } from "@/store/user";
+import React, { ReactNode, useEffect, useState } from "react";
 import NotFound from "../not-found";
 
-export default function AdminLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const [admin, setAdmin] = useState<boolean>(false);
+const AdminLayout = ({ children }: { children: ReactNode }) => {
+  const [isAdmin, setAdmin] = useState(false);
 
-  const checkAuth = async () => {
-    try {
-      await axiosInstance.get("/auth/check");
-      setAdmin(true);
-    } catch (error: any) {
-      setAdmin(false);
-    }
-  };
+  const { user } = useUserStore();
+
   useEffect(() => {
-    checkAuth();
-  }, [setAdmin]);
+    if (!user || user.role === "USER") {
+      return setAdmin(false);
+    }
 
-  if (admin) return children;
+    setAdmin(true);
+  }, [user]);
 
-  return <NotFound />;
-}
+  if (!isAdmin) {
+    return <NotFound />;
+  }
+
+  return children;
+};
+
+export default AdminLayout;

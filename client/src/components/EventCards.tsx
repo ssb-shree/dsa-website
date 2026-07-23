@@ -9,13 +9,13 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css";
 
-import { events, EventType } from "@/data/events";
+import { EventType } from "@/app/events/create/page";
 
 import { cn } from "@/lib/utils";
 
 const EventCards = ({ data }: { data: EventType[] }) => {
   const images = data.map((event) => ({
-    src: event.imgUrl,
+    src: event.banner,
     alt: event.title,
   }));
 
@@ -62,7 +62,7 @@ const SwiperCards = ({
         duration: 0.3,
         delay: 0.5,
       }}
-      className={cn("relative w-full max-w-3xl", className)}
+      className={cn("relative w-full", className)}
     >
       <style>{css}</style>
 
@@ -79,40 +79,20 @@ const SwiperCards = ({
         effect="cards"
         grabCursor={true}
         loop={loop}
-        pagination={
-          showPagination
-            ? {
-                clickable: true,
-              }
-            : false
-        }
-        navigation={
-          showNavigation
-            ? {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-              }
-            : false
-        }
-        className="Carousal_002 h-[380px] w-[260px]"
-        modules={[EffectCards, Autoplay, Pagination, Navigation]}
+        pagination={false}
+        navigation={false}
+        className="h-90 w-65"
+        modules={[EffectCards, Autoplay]}
         onSlideChange={(swiper) => setCurrentIndex(swiper.realIndex)}
+        cardsEffect={{
+          slideShadows: false,
+        }}
       >
         {images.map((image, index) => (
-          <SwiperSlide key={index} className="rounded-3xl">
-            <img className="h-full w-full object-cover" src={image.src} alt={image.alt} />
+          <SwiperSlide key={index} className="h-full rounded-xl overflow-hidden">
+            <img src={image.src} alt={image.alt} className="w-full h-full object-cover" />
           </SwiperSlide>
         ))}
-        {showNavigation && (
-          <div>
-            <div className="swiper-button-next after:hidden">
-              <ChevronRightIcon className="h-6 w-6 text-white" />
-            </div>
-            <div className="swiper-button-prev after:hidden">
-              <ChevronLeftIcon className="h-6 w-6 text-white" />
-            </div>
-          </div>
-        )}
       </Swiper>
     </motion.div>
   );

@@ -56,3 +56,7 @@ teams {
   background: linear-gradient(182deg, rgba(0, 0, 0, 1) 94%, rgba(255, 255, 255, 1) 100%);
 }
 
+
+.Carousal_002 .swiper-slide-shadow {
+  opacity: 0 !important;
+}

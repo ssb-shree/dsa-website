@@ -26,6 +26,11 @@ const Navbar = () => {
       return;
     }
 
+        if (nav === "events") {
+      router.push("/events");
+      return;
+    }
+
     // If already on home, just scroll
     if (pathname === "/") {
       window?.lenis?.scrollTo(`#${nav}`);

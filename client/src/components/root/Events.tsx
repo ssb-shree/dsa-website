@@ -9,7 +9,7 @@ import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import { EventCards } from "../EventCards";
 
 import { useEventStore } from "@/store/events";
-import { events, EventType } from "@/data/events";
+import { EventType } from "@/app/events/create/page";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/services/axios";
 import LoadingPage from "@/app/loading";
@@ -17,24 +17,24 @@ import LoadingPage from "@/app/loading";
 const Events = () => {
   const { currentIndex } = useEventStore();
 
-  const [eventData, setEventData] = useState<EventType[]>(events);
+  const [eventData, setEventData] = useState<EventType[]>([]);
 
-  // useEffect(() => {
-  //   const getEvents = async () => {
-  //     try {
-  //       const { data } = await axiosInstance.get("/events");
+  useEffect(() => {
+    const getEvents = async () => {
+      try {
+        const { data } = await axiosInstance.get("/events");
 
-  //       setEventData(events);
-  //     } catch (error: any) {
-  //       console.log(error.message || error);
-  //     }
-  //   };
-  //   getEvents();
-  // }, [setEventData]);
+        setEventData(data.events);
+      } catch (error: any) {
+        console.log(error.message || error);
+      }
+    };
+    getEvents();
+  }, [setEventData]);
 
-  // if (eventData.length === 0) {
-  //   return <LoadingPage />;
-  // }
+  if (eventData.length === 0) {
+    return <LoadingPage />;
+  }
 
   return (
     <section
@@ -54,9 +54,9 @@ const Events = () => {
 
           <p className="text-sm md:text-md">{eventData[currentIndex].description}</p>
 
-          {eventData[currentIndex].registrationLink ? (
+          {eventData[currentIndex].canRegister ? (
             <InteractiveHoverButton>
-              <Link href={eventData[currentIndex].registrationLink} target="_blank">
+              <Link href={`events/${eventData[currentIndex].slug}`} target="_blank">
                 Register For Event
               </Link>
             </InteractiveHoverButton>

@@ -1,0 +1,148 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import axiosInstance from "@/services/axios";
+import { toasty } from "@/components/ToastProvider";
+
+type Achievement = {
+  _id: string;
+  title: string;
+  description: string;
+  date: string;
+  imgUrl: string;
+};
+
+const empty = {
+  title: "",
+  description: "",
+  date: "",
+  imgUrl: "",
+};
+
+export default function AchievementPage() {
+  const [items, setItems] = useState<Achievement[]>([]);
+  const [form, setForm] = useState(empty);
+
+  const fetchData = async () => {
+    const { data } = await axiosInstance.get("/achievements");
+    setItems(data.achievements);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const create = async () => {
+    await axiosInstance.post("/achievements", form, { withCredentials: true });
+    setForm(empty);
+    fetchData();
+    toasty("Created");
+  };
+
+  const update = async (item: Achievement) => {
+    await axiosInstance.put(`/achievements/${item._id}`, item, { withCredentials: true });
+    toasty("Updated");
+  };
+
+  const remove = async (id: string) => {
+    await axiosInstance.delete(`/achievements/${id}`, { withCredentials: true });
+    fetchData();
+    toasty("Deleted");
+  };
+
+  return (
+    <section className="w-[90vw] mx-auto py-10 flex flex-col gap-10 mt-10">
+      <h1 className="text-3xl font-bold uppercase">Achievements</h1>
+
+      {/* Create */}
+
+      <div className=" p-5 flex flex-col gap-4">
+        <input
+          placeholder="Title"
+          value={form.title}
+          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          className="border-b bg-transparent outline-none py-2"
+        />
+
+        <input
+          placeholder="Date"
+          value={form.date}
+          onChange={(e) => setForm({ ...form, date: e.target.value })}
+          className="border-b bg-transparent outline-none py-2"
+        />
+
+        <input
+          placeholder="Image URL"
+          value={form.imgUrl}
+          onChange={(e) => setForm({ ...form, imgUrl: e.target.value })}
+          className="border-b bg-transparent outline-none py-2"
+        />
+
+        <textarea
+          placeholder="Description"
+          value={form.description}
+          onChange={(e) => setForm({ ...form, description: e.target.value })}
+          className="border-b p-2 outline-none bg-transparent min-h-32"
+        />
+
+        <button onClick={create} className="border py-2 w-fit px-6">
+          Create
+        </button>
+      </div>
+
+      {/* Existing */}
+
+      <div className="flex flex-col gap-8">
+        {items.map((item) => (
+          <div key={item._id} className="border p-5 flex gap-6">
+            <img src={item.imgUrl} className="w-40 h-40 object-cover border shrink-0" />
+
+            <div className="flex-1 flex flex-col gap-3">
+              <input
+                value={item.title}
+                onChange={(e) => {
+                  setItems(items.map((i) => (i._id === item._id ? { ...i, title: e.target.value } : i)));
+                }}
+                className="border-b bg-transparent outline-none"
+              />
+
+              <input
+                value={item.date}
+                onChange={(e) => {
+                  setItems(items.map((i) => (i._id === item._id ? { ...i, date: e.target.value } : i)));
+                }}
+                className="border-b bg-transparent outline-none"
+              />
+
+              <input
+                value={item.imgUrl}
+                onChange={(e) => {
+                  setItems(items.map((i) => (i._id === item._id ? { ...i, imgUrl: e.target.value } : i)));
+                }}
+                className="border-b bg-transparent outline-none"
+              />
+
+              <textarea
+                value={item.description}
+                onChange={(e) => {
+                  setItems(items.map((i) => (i._id === item._id ? { ...i, description: e.target.value } : i)));
+                }}
+                className="border p-2 bg-transparent outline-none"
+              />
+
+              <div className="flex gap-4">
+                <button onClick={() => update(item)} className="border px-5 py-2">
+                  Save
+                </button>
+
+                <button onClick={() => remove(item._id)} className="border px-5 py-2">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}

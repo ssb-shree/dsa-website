@@ -55,6 +55,8 @@ const getEventBySlug = asyncHandler(async (req: Request, res: Response) => {
   const { slug } = req.params;
   if (!slug) throw new ApiError(BAD_REQUEST, "event slug not provided");
 
+  console.log({slug})
+
   const event = await Event.findOne({ slug }).populate({
     path: "organizationID",
     select: "name slug",
@@ -104,7 +106,7 @@ const hostEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response) 
   if (!organization.members.includes(user._id))
     throw new ApiError(UNAUTHORIZED, "access denies, not a member of organizations");
 
-  const slug = `${title}-by-${organization.slug}`.trim().toLowerCase().replace(/\s+/g, "-");
+  const slug = `${title}`.trim().toLowerCase().replace(/\s+/g, "-");
 
   // create an event
   const event = await Event.create({
@@ -167,7 +169,7 @@ const updateEventInformation = asyncHandler(async (req: AuthenticatedRequest, re
     const organization = await Organization.findById(eventData.organizationID);
     if (!organization) throw new ApiError(NOT_FOUND, "organization not found");
 
-    toUpdateData.slug = `${toUpdateData.title}-by-${organization.slug}`.trim().toLowerCase().replace(/\s+/g, "-");
+    toUpdateData.slug = `${toUpdateData.title}`.trim().toLowerCase().replace(/\s+/g, "-");
   }
 
   // update the event

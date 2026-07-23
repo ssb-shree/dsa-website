@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { EventType } from "@/data/events";
+import { EventType } from "@/app/events/create/page";
 import axiosInstance from "@/services/axios";
 import EventForm from "./forms/EventForm";
 
@@ -12,9 +12,7 @@ const EventSection = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axiosInstance.get("/events", {
-          withCredentials: true,
-        });
+        const { data } = await axiosInstance.get("/events");
 
         setEventData(data.events);
       } catch (error: any) {
@@ -63,7 +61,7 @@ const EventCard = ({ data }: { data: EventType }) => {
       <p className="text-xs text-gray-500 mt-1">{data.date}</p>
 
       {/* Optional image */}
-      {data.imgUrl && <img src={data.imgUrl} alt={data.title} className="mt-2 w-full max-h-48 object-cover rounded" />}
+      {data.banner && <img src={data.banner} alt={data.title} className="mt-2 w-full max-h-48 object-cover rounded" />}
     </div>
   );
 };

@@ -30,6 +30,8 @@ import AuthRouter from "./routes/auth.routes.ts";
 import OrganizationRouter from "./routes/organization.routes.ts";
 import EventsRouter from "./routes/event.routes.ts";
 import FeedbackRouter from "./routes/feedback.routes.ts";
+import AchivementRouter from "./routes/achievement.routes.ts";
+import HighlightRouter from "./routes/highlight.routes.ts";
 
 app.get("/", (req: Request, res: Response) => {
   res.send("server is up!!");
@@ -38,6 +40,8 @@ app.get("/", (req: Request, res: Response) => {
 import { Event } from "./models/events.model.ts";
 import { User } from "./models/user.model.ts";
 import asyncHandler from "./utils/asyncHandler.ts";
+import { checkAuth } from "./middlewares/auth.middleware.ts";
+import uploadImage, { upload } from "./utils/supabse.ts";
 
 app.get(
   "/stats",
@@ -53,6 +57,11 @@ app.use("/auth", AuthRouter);
 app.use("/organizations", OrganizationRouter);
 app.use("/events", EventsRouter);
 app.use("/feedbacks", FeedbackRouter);
+
+app.use("/achievements", AchivementRouter)
+app.use("/highlights", HighlightRouter)
+
+app.post("/image-to-url", checkAuth, upload.single("image"), uploadImage)
 
 app.use(errorHandler);
 
