@@ -35,7 +35,7 @@ const adminTools = [
 ];
 
 const FooterSection = ({ title, links }: { title: string; links: { name: string; link: string }[] }) => (
-  <div className="flex flex-col items-start gap-3 mt-8 border-t pt-3">
+  <div className="flex flex-col items-start gap-3 mt-8 border-t lg:border-0 pt-3">
     <span>{title}</span>
 
     {links.map((item) => (
@@ -80,7 +80,7 @@ const Footer = () => {
         </div>
 
         {/* Links */}
-        <div className="w-[90%] md:w-[60%] grid grid-cols-2 lg:grid-cols-4">
+        <div className={`w-[90%] md:w-[60%] grid gap-8 ${isAdmin ? "grid-cols-2 lg:grid-cols-4" : "grid-cols-2"}`}>
           <FooterSection title="Follow Us" links={socialLinks} />
           <FooterSection title="Navigate" links={navLinks} />
 
