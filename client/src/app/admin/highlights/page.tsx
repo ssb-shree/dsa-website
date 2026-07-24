@@ -23,6 +23,8 @@ export default function HighlightPage() {
   const [items, setItems] = useState<Highlight[]>([]);
   const [form, setForm] = useState(empty);
 
+  const [uploading, setUploading] = useState(false);
+
   const fetchData = async () => {
     const { data } = await axiosInstance.get("/highlights");
     setItems(data.highlights);
@@ -50,8 +52,23 @@ export default function HighlightPage() {
     toasty("Deleted");
   };
 
+  const uploadImage = async (file: File) => {
+    try {
+      setUploading(true);
+
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const { data } = await axiosInstance.post("/image-to-url", formData);
+
+      return data.url;
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
-    <section className="w-[90vw] mx-auto py-10 flex flex-col gap-10">
+    <section className="w-[90vw] mx-auto py-10 flex flex-col gap-10 mt-10">
       <h1 className="text-3xl font-bold uppercase">Highlights</h1>
 
       <div className="border p-5 flex flex-col gap-4">
@@ -62,28 +79,39 @@ export default function HighlightPage() {
           className="border-b bg-transparent outline-none py-2"
         />
 
-        <input
-          placeholder="Image 1 URL"
-          value={form.img1Url}
-          onChange={(e) => setForm({ ...form, img1Url: e.target.value })}
-          className="border-b bg-transparent outline-none py-2"
-        />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {(["img1Url", "img2Url", "img3Url"] as const).map((key) => (
+            <div key={key} className="flex flex-col gap-2">
+              {form[key] && <img src={form[key]} className="aspect-square border object-cover" />}
 
-        <input
-          placeholder="Image 2 URL"
-          value={form.img2Url}
-          onChange={(e) => setForm({ ...form, img2Url: e.target.value })}
-          className="border-b bg-transparent outline-none py-2"
-        />
+              <input
+                type="file"
+                accept="image/*"
+                disabled={uploading}
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
 
-        <input
-          placeholder="Image 3 URL"
-          value={form.img3Url}
-          onChange={(e) => setForm({ ...form, img3Url: e.target.value })}
-          className="border-b bg-transparent outline-none py-2"
-        />
+                  try {
+                    const url = await uploadImage(file);
 
-        <button onClick={create} className="border px-6 py-2 w-fit">
+                    setForm((prev) => ({
+                      ...prev,
+                      [key]: url,
+                    }));
+
+                    toasty("Image uploaded");
+                  } catch (error: any) {
+                    toasty(error.response?.data?.message || "Upload failed");
+                  }
+                }}
+                className="border-b bg-transparent outline-none py-2 file:mr-4 file:border-0 file:bg-transparent"
+              />
+            </div>
+          ))}
+        </div>
+
+        <button onClick={create} className="w-full border px-6 py-2 w-fit">
           Create
         </button>
       </div>
@@ -103,11 +131,24 @@ export default function HighlightPage() {
                   <img src={item[key]} className="aspect-square border object-cover" />
 
                   <input
-                    value={item[key]}
-                    onChange={(e) => {
-                      setItems(items.map((i) => (i._id === item._id ? { ...i, [key]: e.target.value } : i)));
+                    type="file"
+                    accept="image/*"
+                    disabled={uploading}
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+
+                      try {
+                        const url = await uploadImage(file);
+
+                        setItems((prev) => prev.map((i) => (i._id === item._id ? { ...i, [key]: url } : i)));
+
+                        toasty("Image uploaded");
+                      } catch (error: any) {
+                        toasty(error.response?.data?.message || "Upload failed");
+                      }
                     }}
-                    className="border-b bg-transparent outline-none"
+                    className="border-b bg-transparent outline-none file:mr-4 file:border-0 file:bg-transparent"
                   />
                 </div>
               ))}

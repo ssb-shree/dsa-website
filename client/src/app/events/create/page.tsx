@@ -52,7 +52,7 @@ export const initialEventState: EventType = {
   date: "",
   day: "",
   time: "",
-  banner: "link here",
+  banner: "",
   venue: "",
   speakers: [],
   description: "",
@@ -64,7 +64,7 @@ export const initialEventState: EventType = {
   canRegister: false,
   isPublic: false,
 
-  registerdStudentsID : [],
+  registerdStudentsID: [],
 
   allowedYears: [],
   allowedDepartments: [],
@@ -163,6 +163,23 @@ const CreateEvent = () => {
     }
   };
 
+  const [uploading, setUploading] = useState(false);
+
+  const uploadImage = async (file: File) => {
+    try {
+      setUploading(true);
+
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const { data } = await axiosInstance.post("/image-to-url", formData);
+
+      return data.url;
+    } finally {
+      setUploading(false);
+    }
+  };
+
   if (!isAdmin) {
     return <NotFound />;
   }
@@ -198,16 +215,27 @@ const CreateEvent = () => {
           />
 
           <input
-            name="banner"
-            placeholder="Banner Link"
-            value={editState.banner}
-            onChange={(e) =>
-              setEditState({
-                ...editState,
-                banner: e.target.value,
-              })
-            }
-            className="w-full mt-4 bg-transparent border-0 border-b outline-none text-5xl font-bold"
+            type="file"
+            accept="image/*"
+            disabled={uploading}
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+
+              try {
+                const url = await uploadImage(file);
+
+                setEditState((prev) => ({
+                  ...prev,
+                  banner: url,
+                }));
+
+                toasty("Banner uploaded");
+              } catch (error: any) {
+                toasty(error.response?.data?.message || "Upload failed");
+              }
+            }}
+            className="w-full mt-4 file:mr-4 file:border-0 file:bg-transparent"
           />
         </motion.div>
 

@@ -23,6 +23,8 @@ export default function AchievementPage() {
   const [items, setItems] = useState<Achievement[]>([]);
   const [form, setForm] = useState(empty);
 
+  const [uploading, setUploading] = useState(false);
+
   const fetchData = async () => {
     const { data } = await axiosInstance.get("/achievements");
     setItems(data.achievements);
@@ -50,6 +52,21 @@ export default function AchievementPage() {
     toasty("Deleted");
   };
 
+  const uploadImage = async (file: File) => {
+    try {
+      setUploading(true);
+
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const { data } = await axiosInstance.post("/image-to-url", formData);
+
+      return data.url;
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <section className="w-[90vw] mx-auto py-10 flex flex-col gap-10 mt-10">
       <h1 className="text-3xl font-bold uppercase">Achievements</h1>
@@ -72,11 +89,30 @@ export default function AchievementPage() {
         />
 
         <input
-          placeholder="Image URL"
-          value={form.imgUrl}
-          onChange={(e) => setForm({ ...form, imgUrl: e.target.value })}
-          className="border-b bg-transparent outline-none py-2"
+          type="file"
+          accept="image/*"
+          disabled={uploading}
+          onChange={async (e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+
+            try {
+              const url = await uploadImage(file);
+
+              setForm((prev) => ({
+                ...prev,
+                imgUrl: url,
+              }));
+
+              toasty("Image uploaded");
+            } catch (error: any) {
+              toasty(error.response?.data?.message || "Upload failed");
+            }
+          }}
+          className="border-b bg-transparent outline-none py-2 file:mr-4 file:border-0 file:bg-transparent"
         />
+
+        {form.imgUrl && <img src={form.imgUrl} className="w-40 h-40 object-cover border" />}
 
         <textarea
           placeholder="Description"
@@ -115,11 +151,24 @@ export default function AchievementPage() {
               />
 
               <input
-                value={item.imgUrl}
-                onChange={(e) => {
-                  setItems(items.map((i) => (i._id === item._id ? { ...i, imgUrl: e.target.value } : i)));
+                type="file"
+                accept="image/*"
+                disabled={uploading}
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+
+                  try {
+                    const url = await uploadImage(file);
+
+                    setItems((prev) => prev.map((i) => (i._id === item._id ? { ...i, imgUrl: url } : i)));
+
+                    toasty("Image uploaded");
+                  } catch (error: any) {
+                    toasty(error.response?.data?.message || "Upload failed");
+                  }
                 }}
-                className="border-b bg-transparent outline-none"
+                className="border-b bg-transparent outline-none file:mr-4 file:border-0 file:bg-transparent"
               />
 
               <textarea
