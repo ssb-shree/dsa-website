@@ -31,7 +31,7 @@ const EventsPage = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 pt-12">
           {eventData.map((event, i) => (
             <div key={i} className="aspect-[3/4] border border-white/10 flex items-center justify-center flex-col">
-              <Link className="h-full w-full" href={`/events/${event.title}`}>
+              <Link className="h-full w-full" href={`/events/${event.slug}`}>
               <img src={event.banner} alt={`${event.title}`} className="h-full w-full object-cover" />
               </Link>
               <InteractiveHoverButton className="text-center w-full rounded-none bg-black">
