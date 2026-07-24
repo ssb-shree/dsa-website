@@ -1,21 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { useUserStore } from "@/store/user";
-import { toasty } from "@/components/ToastProvider";
-import axiosInstance from "@/services/axios";
 import LoadingPage from "@/app/loading";
 import Link from "next/link";
 
+import Cookies from "js-cookie";
+
 const ProfilePage = () => {
-  const { user } = useUserStore();
+  const { user, setUser, setAuth } = useUserStore();
   const router = useRouter();
 
   if (!user) {
     return <LoadingPage />;
   }
+
+  const handleLogout = async () => {
+    Cookies.remove("jwt");
+    setUser(null)
+    setAuth(false)
+    router.push("/");
+  };
 
   return (
     <section className="relative min-h-screen w-screen overflow-x-hidden px-6 py-16">
@@ -40,19 +46,22 @@ const ProfilePage = () => {
 
         <div className="flex flex-col gap5">
           <div>
-          <p className="text-xs uppercase opacity-50">Joined</p>
-          <h2 className="text-xl md:text-4xl mt-2">{new Date(user.createdAt).toLocaleString().split(",")[0]}</h2>
+            <p className="text-xs uppercase opacity-50">Joined</p>
+            <h2 className="text-xl md:text-4xl mt-2">{new Date(user.createdAt).toLocaleString().split(",")[0]}</h2>
           </div>
           <div className="hidden md:flex flex-col mt-5">
-          <p className="text-xs uppercase opacity-50">Last Updated</p>
-          <h2 className="text-xl md:text-4xl mt-2">{new Date(user.createdAt).toLocaleString().split(",")[0]}</h2>
+            <p className="text-xs uppercase opacity-50">Last Updated</p>
+            <h2 className="text-xl md:text-4xl mt-2">{new Date(user.createdAt).toLocaleString().split(",")[0]}</h2>
           </div>
         </div>
 
-        <div className="md:text-right">
+        <div className="md:text-right flex flex-col gap-2 justify-start items-end">
           <Link href="#" className="underline underline-offset-4">
             Update Details
           </Link>
+          <button onClick={handleLogout} className="underline underline-offset-4 text-red-400">
+            Log Out
+          </button>
         </div>
       </div>
 

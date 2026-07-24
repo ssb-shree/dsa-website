@@ -16,14 +16,14 @@ export type UserType = {
 
 type userStore = {
   user: UserType | null;
-  setUser: (data: UserType) => void;
+  setUser: (data: UserType | null) => void;
   isAuth: boolean;
   setAuth: (data: boolean) => void;
 };
 
 export const useUserStore = create<userStore>()((set) => ({
   user: null,
-  setUser: (data: UserType) => set(() => ({ user: data })),
+  setUser: (data: UserType | null) => set(() => ({ user: data })),
   isAuth: false,
   setAuth: (data: boolean) => set(() => ({ isAuth: data })),
 }));
