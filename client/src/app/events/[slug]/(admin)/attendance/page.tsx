@@ -23,17 +23,22 @@ const AttendancePage = ({ params }: { params: Promise<{ slug: string }> }) => {
   const [status, setStatus] = useState<string>(statusList.ready);
 
   const [markedIDs, setMarkedIDs] = useState<string[]>([]);
-  
+
   const fetchEvent = async () => {
-    const { slug } = await params;
-    const { data }: { data: { event: EventType } } = await axiosInstance.get(`/events/${slug}`);
-    eventRef.current = data.event;
+    try {
+      const { slug } = await params;
+      const { data }: { data: { event: EventType } } = await axiosInstance.get(`/events/${slug}`);
+      eventRef.current = data.event;
+    } catch (error: any) {
+      toasty(error.message || "failed to fetch event details");
+      eventRef.current = null;
+    }
   };
 
   useEffect(() => {
     fetchEvent();
   }, []);
-  
+
   useEffect(() => {
     const hints = new Map();
     hints.set(DecodeHintType.POSSIBLE_FORMATS, [
@@ -56,7 +61,7 @@ const AttendancePage = ({ params }: { params: Promise<{ slug: string }> }) => {
       try {
         const { data } = await axiosInstance.post(
           `/events/${eventRef.current?._id}/attended`,
-          { eventID : eventRef.current?._id, moodleID },
+          { eventID: eventRef.current?._id, moodleID },
           { withCredentials: true },
         );
 
@@ -83,7 +88,6 @@ const AttendancePage = ({ params }: { params: Promise<{ slug: string }> }) => {
       reader.reset();
     };
   }, []);
-
 
   const [manualID, setManualID] = useState<string>("");
 
